@@ -1,4 +1,4 @@
-package StepDeinitions;
+package StepDefinitions;
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
 import org.junit.runner.RunWith;
@@ -7,11 +7,10 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         features ="src/test/resources/Features/",
         glue ={"StepDefinitions"},
-        tags = "@exceltestcase",
-        plugin = {"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"},
+  //      plugin = {"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"},
         monochrome = true,
         publish = true
-
+)
 
 public class TestRunner {
 
