@@ -4,7 +4,6 @@ import Utils.Driver;
 import io.cucumber.java.After;
 import io.cucumber.java.AfterStep;
 import io.cucumber.java.Before;
-
 public class Hooks {
 
     @Before
@@ -16,5 +15,4 @@ public class Hooks {
     public void close() {
         Driver.tearDown();
     }
-
 }

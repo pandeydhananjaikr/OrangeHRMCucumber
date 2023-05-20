@@ -9,17 +9,14 @@ Feature: Validate OrangeHRM Functionality
     Then User should able to login and navigate to the landing page
     When User clicks on add user's button under admin tab
     And User create new user with given data
-      | User Role | Employee Name | status  | username | password  | confPassword |
-      | ESS       | John  Smith   | Enabled | johnjohn | johnjohn1 | johnjohn1    |
-#    Then Verify user should be able to create new user with given data
-#      | UserName | USerRole | EmployeeName | Status |
-#      |          |          |              |        |
+      | User Role | Employee Name   | status  | username | password  | confPassword |
+      | ESS       | Chenzira  Chuki | Enabled | abbbbbbb | abcdabcd1 | abcdabcd1    |
     Then Verify that created user with given username is present in the page
       | UserName |
-      | johnjohn |
+      | abbbbbbb |
     When User delete the above created user
       | Username |
-      | johnjohn |
-#    Then Verify that user should able to delete the user entry
-#      | EmployeeName |
-#      | Donn  Edra   |
+      | abbbbbbb |
+    Then Verify that user should able to delete the user entry
+      | username |
+      | abbbbbbb |

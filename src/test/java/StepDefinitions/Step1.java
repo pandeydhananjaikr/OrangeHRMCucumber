@@ -10,7 +10,6 @@ import io.cucumber.java.en.When;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-
 import java.awt.*;
 import java.util.List;
 import java.util.Map;
@@ -23,8 +22,8 @@ public class Step1 {
 
     @Given("User is on OrangeHRM login page")
     public void user_is_on_orange_hrm_login_page() {
-
     driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+    driver.manage().window().maximize();
     }
 
     @When("User enters username and password")
@@ -41,7 +40,8 @@ public class Step1 {
     }
     @Then("User should able to login and navigate to the landing page")
     public void user_should_able_to_login_and_navigate_to_the_landing_page() throws InterruptedException {
-        adminPage.validateSuccessfulLogin("Dashboard");
+        Thread.sleep(2000);
+        landingPage.validateSuccessfulLogin("Dashboard");
     }
     @When("User clicks on add user's button under admin tab")
     public void user_clicks_on_add_user_s_button_under_admin_tab() throws InterruptedException {
@@ -60,35 +60,35 @@ public class Step1 {
         String username = data.get(0).get("username");
         String password = data.get(0).get("password");
         String confPassword = data.get(0).get("confPassword");
-
         adminPage.addUser(userRole, empName, status, username, password, confPassword);
-
+        Thread.sleep(3000);
     }
 
     @Then("Verify that created user with given username is present in the page")
     public void verify_that_created_user_with_given_username_is_present_in_the_page(DataTable dataTable) throws InterruptedException {
-        Thread.sleep(2000);
+        Thread.sleep(5000);
         List<Map<String, String >> dataPresent = dataTable.asMaps(String.class, String.class);
-        String username = dataPresent.get(0).get("UserName");
-        Assert.assertTrue("User is not present", adminPage.userExists(username));
+        String username1 = dataPresent.get(0).get("UserName");
+        adminPage.validateUserExists(username1);
+
     }
 
     @When("User delete the above created user")
     public void user_delete_the_above_created_user(DataTable dataTable) throws InterruptedException {
-        Thread.sleep(2000);
+        Thread.sleep(5000);
         List<Map<String, String >> userDelete = dataTable.asMaps(String.class, String.class);
-        String user = userDelete.get(0).get("UserName");
-        adminPage.deleteUser(user);
+        String user = userDelete.get(0).get("Username");
+        adminPage.deleteExistingUser(user);
     }
     @Then("Verify that user should able to delete the user entry")
     public void verify_that_user_should_able_to_delete_the_user_entry(DataTable dataTable) throws InterruptedException {
         Thread.sleep(2000);
         List<Map<String, String >> entry = dataTable.asMaps(String.class, String.class);
-        String deletedUSer = entry.get(0).get("EmployeeName");
-//        loginPage.insertDetails();
+        String deletedUSer = entry.get(0).get("username");
+        adminPage.validateUserDeleted(deletedUSer);
 
-        Assert.assertTrue(driver.getPageSource().contains(deletedUSer));
-
+//      for loop iterate over all the elemts for i = size of elements
+//      /html/body/div/div[1]/div[2]/div[2]/div/
     }
 
 

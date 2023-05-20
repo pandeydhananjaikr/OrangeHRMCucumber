@@ -36,22 +36,16 @@ public class AdminPage {
     @FindBy(xpath = "//button[text()=\" Save \"]")
     WebElement saveButton;
 
-    @FindBy(xpath = "//button[text()=\" Yes, Delete \"]")
+    @FindBy(xpath = "//button[text()=' Yes, Delete ']")
     WebElement yesDelete;
 
-    @FindBy(xpath = "//h6[text()='Dashboard']")
-    WebElement dashboardTextOnLandingPage;
+
 
     public void clickAdd(){
         addButton.click();
     }
 
-    public void validateSuccessfulLogin(String expectedText) throws InterruptedException {
-        Thread.sleep(3000);
-        String actualText = dashboardTextOnLandingPage.getText();
-        Assert.assertEquals("Validate Sucessful Login", expectedText,actualText);
 
-    }
 
     public void addUser(String userRole, String empName, String status,
                         String username, String password, String confirmPassword )
@@ -59,9 +53,9 @@ public class AdminPage {
 
         Thread.sleep(2000);
 //        JavascriptExecutor js = (JavascriptExecutor) driver;
-////        js.executeScript("document.getElementsByClassName('oxd-select-text-input').innerHTML="+ userRole);
-//        js.executeScript("document.evaluate('(//div[@class='oxd-select-text-input'])[1]', document, null, 9, null)" +
-//                ".singleNodeValue.innerHTML="+ userRole);
+//        js.executeScript("document.getElementsByClassName('oxd-select-text-input').innerHTML="+ userRole);
+////        js.executeScript("document.evaluate('(//div[@class='oxd-select-text-input'])[1]', document, null, 9, null)" +
+////                ".singleNodeValue.innerHTML="+ userRole);
 
         selectUserRole.click();
         Thread.sleep(2000);
@@ -80,9 +74,22 @@ public class AdminPage {
         Thread.sleep(2000);
         insertEmpName.sendKeys(empName);
         Thread.sleep(2000);
+        robot.keyPress(KeyEvent.VK_DOWN);
+        Thread.sleep(1000);
+        robot.keyPress(KeyEvent.VK_ENTER);
+        Thread.sleep(2000);
 
-        Select addStatus = new Select(selectStatus);
-        addStatus.selectByVisibleText(status);
+        selectStatus.click();
+        if (status.equalsIgnoreCase("Enabled")){
+            robot.keyPress(KeyEvent.VK_DOWN);
+            robot.keyPress(KeyEvent.VK_ENTER);
+        }
+        else if (status.equalsIgnoreCase("Disabled")){
+            robot.keyPress(KeyEvent.VK_DOWN);
+            robot.keyPress(KeyEvent.VK_DOWN);
+            robot.keyPress(KeyEvent.VK_ENTER);
+        }
+
         Thread.sleep(2000);
         insertUsername.sendKeys(username);
         Thread.sleep(2000);
@@ -93,20 +100,31 @@ public class AdminPage {
         saveButton.click();
     }
 
-    public boolean userExists(String username){
+    public void validateUserExists(String username){
         boolean bool = false;
         if (driver.getPageSource().contains(username)){
             bool = true;
         }
-        return bool;
+        Assert.assertTrue("User is not present", bool);
     }
-
 
     public void deleteExistingUser(String username) throws InterruptedException {
-        WebElement deleteIcon = driver.findElement(By.xpath("//div[text()="+username+"]/../../div[6]/div/button[1]"));
+        String user = username;
+        String xPath = "//div[text()='"+user+"']/../../div[6]/div/button[1]";
+        System.out.println(xPath);
+        WebElement deleteIcon = driver.findElement(By.xpath(xPath));
         Thread.sleep(2000);
         deleteIcon.click();
+        Thread.sleep(2000);
+        yesDelete.click();
     }
+
+    public void validateUserDeleted(String username){
+        Assert.assertFalse("The username is not deleted",driver.getPageSource().contains(username));
+    }
+
+
+
 
 
 }

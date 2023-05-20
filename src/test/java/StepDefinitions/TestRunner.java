@@ -11,8 +11,6 @@ import org.junit.runner.RunWith;
         monochrome = true,
         publish = true
 )
-
 public class TestRunner {
-
 
 }
