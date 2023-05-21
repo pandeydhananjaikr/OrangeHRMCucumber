@@ -2,6 +2,8 @@ package StepDefinitions;
 import Pages.AdminPage;
 import Pages.LandingPage;
 import Pages.LoginPage;
+import Pages.PageObjectManager;
+import Utils.ConfigReader;
 import Utils.DriverManager;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
@@ -11,19 +13,26 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import java.awt.*;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 public class Step1 {
     WebDriver driver = DriverManager.getDriver();
-    LoginPage loginPage = new LoginPage(driver);
-    LandingPage landingPage = new LandingPage(driver);
-    AdminPage adminPage = new AdminPage(driver);
+//    LoginPage loginPage = new LoginPage(driver);
+//    LandingPage landingPage = new LandingPage(driver);
+//    AdminPage adminPage = new AdminPage(driver);
 
+
+    PageObjectManager pageObjectManager = new PageObjectManager(driver);
+    AdminPage adminPage = pageObjectManager.getAdminPage();
+    LoginPage loginPage = pageObjectManager.getLoginPage();
+    LandingPage landingPage = pageObjectManager.getLandingPage();
     @Given("User is on OrangeHRM login page")
-    public void user_is_on_orange_hrm_login_page() {
-    driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
-    driver.manage().window().maximize();
+    public void user_is_on_orange_hrm_login_page() throws IOException {
+    driver.get(ConfigReader.readConfigFile("url"));
+//    driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+        driver.manage().window().maximize();
     }
 
     @When("User enters username and password")
