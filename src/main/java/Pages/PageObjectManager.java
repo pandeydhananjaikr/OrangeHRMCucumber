@@ -9,28 +9,25 @@ public class PageObjectManager {
     LandingPage landingPage;
 
     public PageObjectManager(WebDriver driver) {
-
         this.driver = driver;
-
     }
 
-
-
-    public AdminPage getAdminPage(){
-
+    public AdminPage getAdminPage() {
         return (adminPage == null) ? adminPage = new AdminPage(driver) : adminPage;
-
     }
 
-    public LoginPage getLoginPage(){
+    public LoginPage getLoginPage() {
         return (loginPage == null) ? loginPage = new LoginPage(driver) : loginPage;
-
     }
+
+//    public LandingPage getLandingPage() {
+//        return (landingPage == null) ? landingPage = new LandingPage(driver) : landingPage;
+//    }
 
     public LandingPage getLandingPage(){
-        return (landingPage == null) ? landingPage = new LandingPage(driver) : landingPage;
+        if(landingPage == null){
+            landingPage = new LandingPage(driver);
+        }
+        return landingPage;
     }
-
-
-
 }
